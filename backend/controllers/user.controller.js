@@ -13,6 +13,8 @@ export const createUserController = async (req, res) => {
         const user = await userService.createUser(req.body);
 
         const token = user.generateJwtToken();
+
+        delete user._doc.password;
         res.status(201).json({ user,token });
     } catch (error) {
         res.status(400).send(error.message);
@@ -37,6 +39,7 @@ export const loginUserController = async (req, res) => {
         }
 
         const token = user.generateJwtToken();
+        delete user._doc.password;
         res.status(200).json({ user, token });
     } catch (error) {
         res.status(400).send(error.message);
